@@ -7,8 +7,10 @@ Author: Raiyan Noory Rady
 */
 
 function otm_scripts(){
+    wp_enqueue_style('bootstrap-css', '//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css');
     wp_enqueue_style('custom-style', plugin_dir_url(__FILE__) . 'style.css');
     wp_enqueue_style('grid-style', plugin_dir_url(__FILE__) . 'grid.css');
+    
 }
 // Register Team Member Post Type
 function team_member_post_type() {
@@ -142,24 +144,24 @@ function team_members_shortcode() {
     $team_members = new WP_Query( $args );
 
     if ( $team_members->have_posts() ) {
-        $output = '<ul>';
+        $output = '<div class="row">';
 
         while ( $team_members->have_posts() ) {
             $team_members->the_post();
-            $output .= '<li>';
+            $output .= '<div class="col-md-6 col-lg-3 mt-5 text-center">';
             
             
             // Display featured image
             if (has_post_thumbnail()) {
                 $output .= '<div class="tm-img">' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</div>';
             }
-            $output .= '<strong>' . get_the_title() . '</strong><br>';
+            $output .= '<strong class="mt-5">' . get_the_title() . '</strong><br>';
             // Display position
             $position = get_post_meta(get_the_ID(), '_team_member_position', true);
-            $output .= '' . esc_html($position) . '</li>';
+            $output .= '' . esc_html($position) . '</div>';
         }
 
-        $output .= '</ul>';
+        $output .= '</div>';
     } else {
         $output = 'No team members found.';
     }

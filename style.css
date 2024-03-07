@@ -1,3 +1,8 @@
 .tm-img .wp-post-image{
     border-radius: 50%;
+    width: 150px !important;
+    height: 150px !important;
+}
+.mt{
+    margin-top: 10px;
 }
