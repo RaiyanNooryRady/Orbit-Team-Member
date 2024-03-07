@@ -3,9 +3,13 @@
 Plugin Name: Team Members
 Description: A plugin for Team Members post type.
 Version: 1.0
-Author: Your Name
+Author: Raiyan Noory Rady
 */
 
+function otm_scripts(){
+    wp_enqueue_style('custom-style', plugin_dir_url(__FILE__) . 'style.css');
+    wp_enqueue_style('grid-style', plugin_dir_url(__FILE__) . 'grid.css');
+}
 // Register Team Member Post Type
 function team_member_post_type() {
     $labels = array(
@@ -147,12 +151,12 @@ function team_members_shortcode() {
             
             // Display featured image
             if (has_post_thumbnail()) {
-                $output .= '<div>' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</div>';
+                $output .= '<div class="tm-img">' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</div>';
             }
             $output .= '<strong>' . get_the_title() . '</strong><br>';
             // Display position
             $position = get_post_meta(get_the_ID(), '_team_member_position', true);
-            $output .= 'Position: ' . esc_html($position) . '</li>';
+            $output .= '' . esc_html($position) . '</li>';
         }
 
         $output .= '</ul>';
@@ -165,7 +169,8 @@ function team_members_shortcode() {
     return $output;
 }
 
-
+//enqueue stylesheet
+add_action('wp_enqueue_scripts','otm_scripts');
 // Hook into the 'init' action to register the post type and taxonomy
 add_action( 'init', 'team_member_post_type' );
 add_action( 'init', 'team_member_taxonomy' );
