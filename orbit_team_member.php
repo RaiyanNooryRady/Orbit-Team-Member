@@ -139,7 +139,7 @@ function team_members_shortcode($atts) {
         array(
             'number' => -1,          // Default: Show all team members
             'image_position' => 'top',  // Default: Image on Top
-            'show_button' => true,   // Default: Show "See all" button
+            'show_button' => 'true',   // Default: Show "See all" button
         ),
         $atts,
         'team_members'
@@ -177,7 +177,7 @@ function team_members_shortcode($atts) {
 
         $output .= '</div>';
         // Display "See all" button if show_button is true
-        if ($atts['show_button']) {
+        if ($atts['show_button']!='false') {
             $output .= '<p class="text-center"><a href="' . esc_url(get_post_type_archive_link('team_member')) . '" class="btn btn-secondary text-decoration-none">See All</a></p>';
         }
     } else {
