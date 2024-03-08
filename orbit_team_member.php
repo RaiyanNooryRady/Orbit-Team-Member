@@ -144,18 +144,18 @@ function team_members_shortcode() {
     $team_members = new WP_Query( $args );
 
     if ( $team_members->have_posts() ) {
-        $output = '<div class="row">';
+        $output = '<div class="row tm">';
 
         while ( $team_members->have_posts() ) {
             $team_members->the_post();
-            $output .= '<div class="col-md-6 col-lg-3 mt-5 text-center">';
+            $output .= '<div class="col-sm-6 col-md-4 col-lg-3 mt-5 text-center">';
             
             
             // Display featured image
             if (has_post_thumbnail()) {
-                $output .= '<div class="tm-img">' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</div>';
+                $output .= '<div class="mb-3"><a href="' . esc_url( get_permalink() ) . '" class="tm-img">' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</a></div>';
             }
-            $output .= '<strong class="mt-5">' . get_the_title() . '</strong><br>';
+            $output .= '<strong class="mb-5"> <a href="' . esc_url( get_permalink() ) . '" class="link-dark text-decoration-none"> ' . get_the_title() . '</a></strong><br>';
             // Display position
             $position = get_post_meta(get_the_ID(), '_team_member_position', true);
             $output .= '' . esc_html($position) . '</div>';
