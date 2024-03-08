@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Team Members
+Plugin Name: Orbit Team Members
 Description: A plugin for Team Members post type.
 Version: 1.0
 Author: Raiyan Noory Rady
