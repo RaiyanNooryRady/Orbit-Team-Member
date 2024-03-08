@@ -133,11 +133,20 @@ function team_member_change_featured_image_text( $content ) {
 }
 
 // Shortcode function to display team members
-// Shortcode function to display team members
-function team_members_shortcode() {
+//[team_members number=3 image_position=top show_button=true]
+function team_members_shortcode($atts) {
+    $atts = shortcode_atts(
+        array(
+            'number' => -1,          // Default: Show all team members
+            'image_position' => 'top',  // Default: Image on Top
+            'show_button' => true,   // Default: Show "See all" button
+        ),
+        $atts,
+        'team_members'
+    );
     $args = array(
         'post_type'      => 'team_member',
-        'posts_per_page' => -1,
+        'posts_per_page' => $atts['number'],
         'order'          => 'ASC',
     );
 
@@ -151,17 +160,26 @@ function team_members_shortcode() {
             $output .= '<div class="col-sm-6 col-md-4 col-lg-3 mt-5 text-center">';
             
             
-            // Display featured image
-            if (has_post_thumbnail()) {
+            //  // Display image before or after title based on the parameter
+            if ($atts['image_position'] == 'top' && has_post_thumbnail()) {
                 $output .= '<div class="mb-3"><a href="' . esc_url( get_permalink() ) . '" class="tm-img">' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</a></div>';
             }
             $output .= '<strong class="mb-5"> <a href="' . esc_url( get_permalink() ) . '" class="link-dark text-decoration-none"> ' . get_the_title() . '</a></strong><br>';
             // Display position
             $position = get_post_meta(get_the_ID(), '_team_member_position', true);
-            $output .= '' . esc_html($position) . '</div>';
+            $output .= '' . esc_html($position);
+
+            if ($atts['image_position'] == 'bottom' && has_post_thumbnail()) {
+                $output .= '<div class="mt-3"><a href="' . esc_url( get_permalink() ) . '" class="tm-img pos-bottom">' . get_the_post_thumbnail(get_the_ID(), 'thumbnail') . '</a></div>';
+            }
+            $output.= '</div>';
         }
 
         $output .= '</div>';
+        // Display "See all" button if show_button is true
+        if ($atts['show_button']) {
+            $output .= '<p class="text-center"><a href="' . esc_url(get_post_type_archive_link('team_member')) . '" class="btn btn-secondary text-decoration-none">See All</a></p>';
+        }
     } else {
         $output = 'No team members found.';
     }
